@@ -1,0 +1,200 @@
+{
+  "stops": {
+    "nguhanhson": {
+      "key": "nguhanhson",
+      "start": "08:00",
+      "end": "11:00",
+      "title": "DANH THẮNG NGŨ HÀNH SƠN",
+      "desc": "Khám phá ngọn Thủy Sơn, động Huyền Không và làng đá mỹ nghệ Non Nước hơn 400 năm tuổi.",
+      "img": "assets/ngu_hanh_son.jpg",
+      "dotColor": "var(--vintage-terracotta)",
+      "timeBadgeClass": "badge-sage",
+      "ticketCost": 40000,
+      "distanceKm": 8.5,
+      "durationHours": 3,
+      "isOutdoor": true,
+      "badges": [
+        {
+          "text": "VÉ: 40.000 VNĐ",
+          "cls": "badge-ochre"
+        },
+        {
+          "text": "DI TÍCH QUỐC GIA",
+          "cls": "badge-teal"
+        }
+      ]
+    },
+    "baotang_noon": {
+      "key": "baotang",
+      "start": "11:30",
+      "end": "13:30",
+      "title": "BẢO TÀNG ĐÀ NẴNG (TRONG NHÀ)",
+      "desc": "Tìm hiểu dòng lịch sử hình thành xứ Quảng, tư liệu quý về văn hóa biển và đô thị Đà Nẵng.",
+      "img": "assets/bao_tang_dn.jpg",
+      "dotColor": "var(--vintage-ochre)",
+      "timeBadgeClass": "badge-ochre",
+      "ticketCost": 20000,
+      "distanceKm": 4.2,
+      "durationHours": 2,
+      "isOutdoor": false,
+      "badges": [
+        {
+          "text": "VÉ: 20.000 VNĐ",
+          "cls": "badge-ochre"
+        },
+        {
+          "text": "TRONG NHÀ · MÁT MẺ",
+          "cls": "badge-sage"
+        }
+      ]
+    },
+    "sontra": {
+      "key": "sontra",
+      "start": "14:00",
+      "end": "16:30",
+      "title": "ĐỈNH BÀN CỜ - BÁN ĐẢO SƠN TRÀ (NGOÀI TRỜI)",
+      "desc": "Cung đường ven biển Sơn Trà, chùa Linh Ứng và đỉnh Bàn Cờ ngắm toàn cảnh vịnh Đà Nẵng (Điểm ngoài trời dễ bị ảnh hưởng khi mưa).",
+      "img": "assets/son_tra.jpg",
+      "dotColor": "var(--vintage-rose)",
+      "timeBadgeClass": "badge-rose",
+      "ticketCost": 0,
+      "distanceKm": 11,
+      "durationHours": 2.5,
+      "isOutdoor": true,
+      "rainVulnerable": true,
+      "badges": [
+        {
+          "text": "NGOÀI TRỜI 100%",
+          "cls": "badge-terracotta"
+        },
+        {
+          "text": "⚠ DỰ BÁO MƯA 14:00 (MÔ PHỎNG)",
+          "cls": "badge-amber"
+        }
+      ]
+    },
+    "caurong": {
+      "key": "caurong",
+      "start": "18:00",
+      "end": "21:00",
+      "title": "CẦU RỒNG & CHỢ ĐÊM SƠN TRÀ",
+      "desc": "Dạo bộ bờ sông Hàn, thưởng thức ẩm thực bản địa và ngắm Cầu Rồng phun lửa & nước.",
+      "img": "assets/cau_rong.jpg",
+      "dotColor": "var(--vintage-teal)",
+      "timeBadgeClass": "badge-teal",
+      "ticketCost": 0,
+      "distanceKm": 3,
+      "durationHours": 3,
+      "isOutdoor": true,
+      "badges": [
+        {
+          "text": "MIỄN PHÍ",
+          "cls": "badge-ochre"
+        },
+        {
+          "text": "BIỂU TƯỢNG ĐÀ NẴNG",
+          "cls": "badge-teal"
+        }
+      ]
+    }
+  },
+  "replacements": {
+    "baotang": {
+      "key": "baotang",
+      "name": "BẢO TÀNG ĐÀ NẴNG & KHÔNG GIAN DI SẢN",
+      "timelineTitle": "BẢO TÀNG ĐÀ NẴNG (TRONG NHÀ · ĐÃ THAY THẾ TRÁNH MƯA)",
+      "desc": "Vị trí trung tâm thành phố, có bãi đậu xe có mái che, máy lạnh mát mẻ, trưng bày sinh động hơn 2.500 hiện vật lịch sử & văn hóa.",
+      "timelineDesc": "Điểm đến trong nhà thay thế cho Đỉnh Bàn Cờ - Sơn Trà theo mô phỏng tránh mưa . Giữ nguyên khung giờ 14:00 - 16:30, an toàn và không bị gián đoạn.",
+      "img": "assets/bao_tang_dn.jpg",
+      "ticketCost": 20000,
+      "benefit": "✓ Giữ nguyên khung giờ 14:00 - 16:30 · Tiết kiệm 45 phút di chuyển · Không ảnh hưởng các điểm còn lại."
+    },
+    "cham": {
+      "key": "cham",
+      "name": "BẢO TÀNG ĐIÊU KHẮC CHĂM ĐÀ NẴNG",
+      "timelineTitle": "BẢO TÀNG ĐIÊU KHẮC CHĂM (TRONG NHÀ · ĐÃ THAY THẾ TRÁNH MƯA)",
+      "desc": "Không gian trưng bày cổ vật Chăm Pa lớn nhất Việt Nam bên sông Hàn, kiến trúc Pháp cổ điển, tham quan trong nhà 100% an toàn khi trời mưa.",
+      "timelineDesc": "Điểm đến di sản trong nhà thay thế cho Đỉnh Bàn Cờ - Sơn Trà theo mô phỏng tránh mưa . Giữ nguyên khung giờ 14:00 - 16:30.",
+      "img": "assets/bao_tang_dn.jpg",
+      "ticketCost": 60000,
+      "benefit": "✓ Giữ nguyên khung giờ 14:00 - 16:30 · Không gian di sản Chăm Pa đặc sắc trong nhà 100%."
+    }
+  },
+  "places": {
+    "sontra": {
+      "key": "sontra",
+      "tag": "THIÊN NHIÊN HOANG DÃ (MÔ PHỎNG)",
+      "name": "BÁN ĐẢO SƠN TRÀ",
+      "area": "Sơn Trà",
+      "img": "assets/son_tra.jpg",
+      "hours": "06:00 - 18:30 (Hàng ngày)",
+      "ticket": "Miễn phí vé tham quan",
+      "desc": "Bán đảo Sơn Trà là khu bảo tồn thiên nhiên tuyệt đẹp nằm cách trung tâm Đà Nẵng 10km về hướng Đông Bắc. Nơi đây sở hữu cung đường ven biển hùng vĩ, Chùa Linh Ứng với tượng Phật Quan Âm 67m ngắm trọn thành phố và đỉnh Bàn Cờ."
+    },
+    "caurong": {
+      "key": "caurong",
+      "tag": "BIỂU TƯỢNG KIẾN TRÚC HIỆN ĐẠI (MÔ PHỎNG)",
+      "name": "CẦU RỒNG ĐÀ NẴNG",
+      "area": "Hải Châu",
+      "img": "assets/cau_rong.jpg",
+      "hours": "Mở cả ngày · Phun lửa 21:00 cuối tuần",
+      "ticket": "Miễn phí",
+      "desc": "Chiếc cầu thép có hình dáng rồng vươn ra Biển Đông dài 666m. Vào lúc 21h tối thứ Bảy và Chủ Nhật, du khách có thể chiêm ngưỡng màn trình diễn phun lửa và phun nước bên bờ sông Hàn."
+    },
+    "nguhanhson": {
+      "key": "nguhanhson",
+      "tag": "DI TÍCH LỊCH SỬ VĂN HÓA (MÔ PHỎNG)",
+      "name": "DANH THẮNG NGŨ HÀNH SƠN",
+      "area": "Ngũ Hành Sơn",
+      "img": "assets/ngu_hanh_son.jpg",
+      "hours": "07:00 - 17:30",
+      "ticket": "40.000 VNĐ / Người",
+      "desc": "Quần thể 5 ngọn núi đá vôi mang tên hệ Ngũ Hành (Kim, Mộc, Thủy, Hỏa, Thổ) với các hang động huyền bí như động Huyền Không, động Âm Phủ cùng làng đá mỹ nghệ Non Nước truyền thống."
+    },
+    "baotang": {
+      "key": "baotang",
+      "tag": "LỊCH SỬ & DI SẢN ĐÔ THỊ (MÔ PHỎNG)",
+      "name": "BẢO TÀNG ĐÀ NẴNG",
+      "area": "Hải Châu",
+      "img": "assets/bao_tang_dn.jpg",
+      "hours": "08:00 - 17:00",
+      "ticket": "20.000 VNĐ / Người",
+      "desc": "Nơi tái hiện sinh động chiều dài lịch sử, văn hóa của Đà Nẵng và xứ Quảng. Không gian trong nhà mát mẻ, trưng bày khoa học, là điểm đến lý tưởng cho mọi điều kiện thời tiết."
+    }
+  },
+  "questions": [
+    {
+      "question": "Cầu Rồng Đà Nẵng chính thức được khánh thành vào năm nào và thường phun lửa, nước vào thời gian nào?",
+      "options": [
+        "Năm 2013 · Phun lửa & nước lúc 21:00 thứ Bảy & Chủ Nhật hàng tuần",
+        "Năm 2015 · Phun lửa hàng ngày lúc 20:00",
+        "Năm 2010 · Phun lửa vào mùng 1 và ngày rằm hàng tháng",
+        "Năm 2018 · Phun lửa lúc 22:00 thứ Sáu"
+      ],
+      "correct": 0,
+      "explanation": "Cầu Rồng được khánh thành ngày 29/03/2013 nhân kỷ niệm 38 năm giải phóng Đà Nẵng, trình diễn phun lửa và nước lúc 21:00 cuối tuần."
+    },
+    {
+      "question": "Bán đảo Sơn Trà được mệnh danh là vương quốc của loài linh trưởng quý hiếm nào trong Sách Đỏ?",
+      "options": [
+        "Vượn đen má vàng",
+        "Voọc chà vá chân nâu (Nữ hoàng linh trưởng)",
+        "Khỉ đuôi dài Sơn Trà",
+        "Cu li nhỏ"
+      ],
+      "correct": 1,
+      "explanation": "Voọc chà vá chân nâu được mệnh danh là \"Nữ hoàng linh trưởng\" và là loài đặc hữu biểu tượng sinh thái của bán đảo Sơn Trà."
+    },
+    {
+      "question": "Ngọn núi đá vôi nào lớn nhất và tập trung nhiều hang động, chùa chiền cổ kính nhất tại Danh thắng Ngũ Hành Sơn?",
+      "options": [
+        "Kim Sơn",
+        "Mộc Sơn",
+        "Thủy Sơn",
+        "Hỏa Sơn"
+      ],
+      "correct": 2,
+      "explanation": "Thủy Sơn là ngọn núi lớn và cao nhất tại Ngũ Hành Sơn, nơi hội tụ chùa Tam Thai, chùa Linh Ứng Non Nước và động Huyền Không."
+    }
+  ]
+}

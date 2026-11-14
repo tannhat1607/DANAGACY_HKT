@@ -1,0 +1,13 @@
+.git
+.agents
+.codex
+.aws
+.npm-cache
+**/node_modules
+**/dist
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.env
+**/.env.*
+!**/.env.example

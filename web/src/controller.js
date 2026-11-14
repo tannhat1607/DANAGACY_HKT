@@ -1,5 +1,6 @@
 // DANANGACY VINTAGE BRUTALISM CONTROLLER & DETERMINISTIC MVP FLOWS
-// Client-side interactive simulation only (No Backend, Gemini, Weather API, Firebase, or DB calls)
+import { api } from './api.js';
+// Sample providers are served by FastAPI; user data is stored locally.
 
 const STOP_TEMPLATES = {
   nguhanhson: {
@@ -83,7 +84,7 @@ const WEATHER_REPLACEMENTS = {
     name: 'BẢO TÀNG ĐÀ NẴNG & KHÔNG GIAN DI SẢN',
     timelineTitle: 'BẢO TÀNG ĐÀ NẴNG (TRONG NHÀ · ĐÃ THAY THẾ TRÁNH MƯA)',
     desc: 'Vị trí trung tâm thành phố, có bãi đậu xe có mái che, máy lạnh mát mẻ, trưng bày sinh động hơn 2.500 hiện vật lịch sử & văn hóa.',
-    timelineDesc: 'Điểm đến trong nhà thay thế cho Đỉnh Bàn Cờ - Sơn Trà theo mô phỏng tránh mưa (D03). Giữ nguyên khung giờ 14:00 - 16:30, an toàn và không bị gián đoạn.',
+    timelineDesc: 'Điểm đến trong nhà thay thế cho Đỉnh Bàn Cờ - Sơn Trà theo mô phỏng tránh mưa . Giữ nguyên khung giờ 14:00 - 16:30, an toàn và không bị gián đoạn.',
     img: 'assets/bao_tang_dn.jpg',
     ticketCost: 20000,
     benefit: '✓ Giữ nguyên khung giờ 14:00 - 16:30 · Tiết kiệm 45 phút di chuyển · Không ảnh hưởng các điểm còn lại.'
@@ -93,7 +94,7 @@ const WEATHER_REPLACEMENTS = {
     name: 'BẢO TÀNG ĐIÊU KHẮC CHĂM ĐÀ NẴNG',
     timelineTitle: 'BẢO TÀNG ĐIÊU KHẮC CHĂM (TRONG NHÀ · ĐÃ THAY THẾ TRÁNH MƯA)',
     desc: 'Không gian trưng bày cổ vật Chăm Pa lớn nhất Việt Nam bên sông Hàn, kiến trúc Pháp cổ điển, tham quan trong nhà 100% an toàn khi trời mưa.',
-    timelineDesc: 'Điểm đến di sản trong nhà thay thế cho Đỉnh Bàn Cờ - Sơn Trà theo mô phỏng tránh mưa (D03). Giữ nguyên khung giờ 14:00 - 16:30.',
+    timelineDesc: 'Điểm đến di sản trong nhà thay thế cho Đỉnh Bàn Cờ - Sơn Trà theo mô phỏng tránh mưa . Giữ nguyên khung giờ 14:00 - 16:30.',
     img: 'assets/bao_tang_dn.jpg',
     ticketCost: 60000,
     benefit: '✓ Giữ nguyên khung giờ 14:00 - 16:30 · Không gian di sản Chăm Pa đặc sắc trong nhà 100%.'
@@ -112,7 +113,6 @@ const state = {
   },
   currentView: 'home',
   currentPlaceModalKey: 'sontra',
-  happyStep: 1,
   explore: {
     query: '',
     area: 'Tất cả'
@@ -179,7 +179,7 @@ const state = {
   placesData: {
     sontra: {
       key: 'sontra',
-      tag: 'THIÊN NHIÊN HOANG DÃ (MÀN HÌNH B03 · MÔ PHỎNG)',
+      tag: 'THIÊN NHIÊN HOANG DÃ (MÔ PHỎNG)',
       name: 'BÁN ĐẢO SƠN TRÀ',
       area: 'Sơn Trà',
       img: 'assets/son_tra.jpg',
@@ -189,7 +189,7 @@ const state = {
     },
     caurong: {
       key: 'caurong',
-      tag: 'BIỂU TƯỢNG KIẾN TRÚC HIỆN ĐẠI (MÀN HÌNH B04 · MÔ PHỎNG)',
+      tag: 'BIỂU TƯỢNG KIẾN TRÚC HIỆN ĐẠI (MÔ PHỎNG)',
       name: 'CẦU RỒNG ĐÀ NẴNG',
       area: 'Hải Châu',
       img: 'assets/cau_rong.jpg',
@@ -199,7 +199,7 @@ const state = {
     },
     nguhanhson: {
       key: 'nguhanhson',
-      tag: 'DI TÍCH LỊCH SỬ VĂN HÓA (MÀN HÌNH B05 · MÔ PHỎNG)',
+      tag: 'DI TÍCH LỊCH SỬ VĂN HÓA (MÔ PHỎNG)',
       name: 'DANH THẮNG NGŨ HÀNH SƠN',
       area: 'Ngũ Hành Sơn',
       img: 'assets/ngu_hanh_son.jpg',
@@ -209,7 +209,7 @@ const state = {
     },
     baotang: {
       key: 'baotang',
-      tag: 'LỊCH SỬ & DI SẢN ĐÔ THỊ (MÀN HÌNH B06 · MÔ PHỎNG)',
+      tag: 'LỊCH SỬ & DI SẢN ĐÔ THỊ (MÔ PHỎNG)',
       name: 'BẢO TÀNG ĐÀ NẴNG',
       area: 'Hải Châu',
       img: 'assets/bao_tang_dn.jpg',
@@ -267,43 +267,51 @@ function closeModal(id) {
   if (m) m.style.display = 'none';
 }
 
-// Toggle Auth Sub-screens (A02, A03, A04)
+// Toggle Auth Sub-screens 
 function toggleAuthSub(type) {
   document.getElementById('auth-box-login').style.display = type === 'login' ? 'block' : 'none';
   document.getElementById('auth-box-register').style.display = type === 'register' ? 'block' : 'none';
   document.getElementById('auth-box-forgot').style.display = type === 'forgot' ? 'block' : 'none';
 }
 
+function syncAuthButton() {
+  const btn = document.getElementById('auth-state-btn');
+  if (!btn) return;
+  const loggedIn = state.user.isLoggedIn;
+  btn.textContent = loggedIn ? `${state.user.name.toUpperCase()} ✓` : 'ĐĂNG NHẬP';
+  btn.classList.remove('brutal-btn-yellow', 'brutal-btn-green');
+  btn.classList.toggle('brutal-btn-ochre', !loggedIn);
+  btn.classList.toggle('brutal-btn-sage', loggedIn);
+  btn.setAttribute('aria-label', loggedIn ? `Mở hồ sơ của ${state.user.name}` : 'Đăng nhập');
+  btn.title = loggedIn ? 'Xem hồ sơ cá nhân' : 'Đăng nhập';
+}
+
+function openAccount() {
+  if (!state.user.isLoggedIn) toggleAuthSub('login');
+  switchView(state.user.isLoggedIn ? 'profile' : 'auth');
+}
+
 function doLogin() {
   state.user.isLoggedIn = true;
-  const btn = document.getElementById('auth-state-btn');
-  if (btn) {
-    btn.innerHTML = `<span>${state.user.name.toUpperCase()}</span> ✓`;
-    btn.classList.remove('brutal-btn-ochre', 'brutal-btn-yellow');
-    btn.classList.add('brutal-btn-sage');
-  }
+  syncAuthButton();
   showToast(`Đăng nhập mô phỏng thành công! Chào mừng ${state.user.name}.`);
   switchView('home');
 }
 
 function doQuickDemoLogin() {
   doLogin();
-  runHappyStep(2);
+  switchView('home');
 }
 
 function doLogout() {
   state.user.isLoggedIn = false;
-  const btn = document.getElementById('auth-state-btn');
-  if (btn) {
-    btn.innerHTML = '<span>ĐĂNG NHẬP</span> 👤';
-    btn.classList.add('brutal-btn-ochre');
-    btn.classList.remove('brutal-btn-sage', 'brutal-btn-green');
-  }
+  syncAuthButton();
+  toggleAuthSub('login');
   showToast('Đã đăng xuất phiên mô phỏng.');
   switchView('auth');
 }
 
-// Places and Filters (B01 - B06)
+// Places and Filters 
 function filterPlaces(category) {
   const cards = document.querySelectorAll('.place-card-item');
   cards.forEach(c => {
@@ -403,14 +411,14 @@ function renderSavedPlacesList() {
   if (!list) return;
 
   const lookup = {
-    'Bán đảo Sơn Trà': { key: 'sontra', img: 'assets/son_tra.jpg', code: 'B03' },
-    'Cầu Rồng Đà Nẵng': { key: 'caurong', img: 'assets/cau_rong.jpg', code: 'B04' },
-    'Ngũ Hành Sơn': { key: 'nguhanhson', img: 'assets/ngu_hanh_son.jpg', code: 'B05' },
-    'Bảo tàng Đà Nẵng': { key: 'baotang', img: 'assets/bao_tang_dn.jpg', code: 'B06' }
+    'Bán đảo Sơn Trà': { key: 'sontra', img: 'assets/son_tra.jpg', code: '' },
+    'Cầu Rồng Đà Nẵng': { key: 'caurong', img: 'assets/cau_rong.jpg', code: '' },
+    'Ngũ Hành Sơn': { key: 'nguhanhson', img: 'assets/ngu_hanh_son.jpg', code: '' },
+    'Bảo tàng Đà Nẵng': { key: 'baotang', img: 'assets/bao_tang_dn.jpg', code: '' }
   };
 
   list.innerHTML = state.user.savedPlaces.map(placeName => {
-    const info = lookup[placeName] || { key: 'sontra', img: 'assets/son_tra.jpg', code: 'B03' };
+    const info = lookup[placeName] || { key: 'sontra', img: 'assets/son_tra.jpg', code: '' };
     return `
       <div class="brutal-card" style="padding:12px; display:flex; justify-content:space-between; align-items:center; background:#FFFDF0;">
         <div style="display:flex; align-items:center; gap:12px;">
@@ -430,7 +438,7 @@ function savePlace(placeName) {
   if (!state.user.savedPlaces.includes(placeName)) {
     state.user.savedPlaces.push(placeName);
     renderSavedPlacesList();
-    showToast(`Đã lưu "${placeName}" vào danh sách yêu thích! (B01A)`);
+    showToast(`Đã lưu "${placeName}" vào danh sách yêu thích! `);
   } else {
     showToast(`"${placeName}" đã có sẵn trong danh sách lưu!`);
   }
@@ -446,11 +454,11 @@ function addCurrentPlaceToItinerary() {
     state.itinerary.stops.sort((a, b) => a.start.localeCompare(b.start));
   }
   renderItineraryTimeline();
-  showToast('Đã thêm điểm tham quan vào lịch trình mô phỏng! (C04)');
+  showToast('Đã thêm điểm tham quan vào lịch trình mô phỏng! ');
   switchView('itinerary');
 }
 
-// Booking Ticket (BKG01)
+// Booking Ticket 
 function openBookingTicketModal() {
   closeModal('modal-place-detail');
   openModal('modal-booking');
@@ -458,11 +466,11 @@ function openBookingTicketModal() {
 
 function confirmTicketBooking() {
   closeModal('modal-booking');
-  showToast('Đặt vé mô phỏng thành công! Mã QR mẫu đã được ghi nhận (BKG01).');
+  showToast('Đặt vé mô phỏng thành công! Mã QR mẫu đã được ghi nhận .');
 }
 
 // ============================================================================
-// FLOW 1: DETERMINISTIC ITINERARY GENERATION (C02 - C05 -> C06/C07)
+// FLOW 1: DETERMINISTIC ITINERARY GENERATION 
 // ============================================================================
 function selectPace(labelElement, paceText) {
   state.itinerary.pace = paceText;
@@ -527,7 +535,7 @@ function updateItineraryPreview() {
   const previewBox = document.getElementById('it-create-preview-box');
   const hasSonTra = document.getElementById('pick-sontra')?.checked;
   if (previewBox) {
-    previewBox.innerHTML = `✦ <strong>Dự kiến mô phỏng (${state.itinerary.pace}):</strong> ${checkedCount} điểm đến đã chọn ${hasSonTra ? '· Có điểm ngoài trời Sơn Trà (14:00 - 16:30) hỗ trợ mô phỏng tránh mưa D01.' : '· Tất cả điểm đến đã sẵn sàng sắp xếp khung giờ.'}`;
+    previewBox.innerHTML = `✦ <strong>Dự kiến mô phỏng (${state.itinerary.pace}):</strong> ${checkedCount} điểm đến đã chọn ${hasSonTra ? '· Có điểm ngoài trời Sơn Trà (14:00 - 16:30) hỗ trợ mô phỏng tránh mưa .' : '· Tất cả điểm đến đã sẵn sàng sắp xếp khung giờ.'}`;
   }
 }
 
@@ -537,7 +545,8 @@ function formatDateVN(isoDate) {
   return `${d}/${m}/${y}`;
 }
 
-function generateAndSaveItinerary() {
+async function generateAndSaveItinerary() {
+  if (state.planning) return;
   const titleInput = document.getElementById('it-title');
   const dateInput = document.getElementById('it-date');
   const peopleSelect = document.getElementById('it-people');
@@ -549,29 +558,42 @@ function generateAndSaveItinerary() {
   if (document.getElementById('pick-caurong')?.checked) pickedKeys.push('caurong');
 
   if (pickedKeys.length === 0) {
-    showToast('⚠ Vui lòng chọn ít nhất 1 điểm đến ở Bước 3 (C04)!');
+    showToast('⚠ Vui lòng chọn ít nhất 1 điểm đến ở Bước 3 !');
     return;
   }
 
+  let result;
+  state.planning = true;
+  showToast('Đang tạo lịch trình, vui lòng chờ…');
+  try {
+    result = await api('/itineraries', {
+      date: dateInput?.value || new Date().toISOString().slice(0, 10),
+      destinations: pickedKeys,
+      people: Number(peopleSelect?.value || 2),
+      pace: ({ 'Thư thả': 'Chậm rãi', 'Khám phá tối đa': 'Năng động' })[state.itinerary.pace] || 'Vừa phải',
+    });
+  } catch (error) {
+    showToast(error.message);
+    return;
+  } finally {
+    state.planning = false;
+  }
   state.itinerary.title = (titleInput?.value || 'Khám phá Di sản Đà Nẵng').trim();
   state.itinerary.date = dateInput?.value || '2026-11-20';
   state.itinerary.people = peopleSelect?.options[peopleSelect.selectedIndex]?.text || '2 Người';
   state.itinerary.rainAvoidanceApplied = false;
   state.itinerary.rainIgnored = false;
-  state.itinerary.stops = pickedKeys.map(k => ({
-    ...STOP_TEMPLATES[k],
-    badges: [...STOP_TEMPLATES[k].badges]
-  }));
+  state.itinerary.stops = result.stops;
   state.itinerary.createdCount += 1;
 
   const profileItinEl = document.getElementById('profile-itineraries-val');
   if (profileItinEl) {
-    profileItinEl.innerText = `${state.itinerary.createdCount} Lịch trình (C01)`;
+    profileItinEl.innerText = `${state.itinerary.createdCount} Lịch trình `;
   }
 
   renderItineraryTimeline();
   syncWeatherViewUI();
-  showToast(`Đã tạo lịch trình mô phỏng "${state.itinerary.title}" (${state.itinerary.stops.length} điểm đến) thành công! (C05A)`);
+  showToast(`Đã tạo lịch trình ${result.source === 'gemini' ? 'bằng Gemini' : 'mẫu'} "${state.itinerary.title}" (${state.itinerary.stops.length} điểm đến)!`);
   switchView('itinerary');
 }
 
@@ -599,7 +621,7 @@ function renderItineraryTimeline() {
       weatherBanner.style.borderColor = 'var(--vintage-sage)';
       weatherBanner.innerHTML = `
         <div style="font-family:var(--font-body); font-size:13px; font-weight:700; color:#1E1B18;">
-          ✓ <strong>[ĐÃ ÁP DỤNG MÔ PHỎNG TRÁNH MƯA D03]:</strong> Đã chuyển điểm ngoài trời 14:00 - 16:30 sang <strong>${rep.name}</strong> (Trong nhà 100%).
+          ✓ <strong>:</strong> Đã chuyển điểm ngoài trời 14:00 - 16:30 sang <strong>${rep.name}</strong> (Trong nhà 100%).
         </div>
         <button class="brutal-btn brutal-btn-sm brutal-btn-white" onclick="resetWeatherSimulation()">↺ Hoàn tác</button>
       `;
@@ -608,7 +630,7 @@ function renderItineraryTimeline() {
       weatherBanner.style.borderColor = 'var(--vintage-terracotta)';
       weatherBanner.innerHTML = `
         <div style="font-family:var(--font-body); font-size:13px; font-weight:700; color:#3D372E;">
-          🌧 <strong>[MÔ PHỎNG THỜI TIẾT D01]:</strong> Dự báo có mưa lớn 14:00 - 17:00 tại Bán đảo Sơn Trà (Ngoài trời).
+          🌧 <strong>:</strong> Dự báo có mưa lớn 14:00 - 17:00 tại Bán đảo Sơn Trà (Ngoài trời).
         </div>
         <button class="brutal-btn brutal-btn-sm brutal-btn-terracotta" onclick="simulateRainTrigger()">XEM ĐỀ XUẤT TRÁNH MƯA ➜</button>
       `;
@@ -619,7 +641,7 @@ function renderItineraryTimeline() {
         <div style="font-family:var(--font-body); font-size:13px; font-weight:700; color:#3D372E;">
           ☀ <strong>[MÔ PHỎNG THỜI TIẾT]:</strong> Lịch trình hiện tại không có điểm ngoài trời trùng khung giờ mưa 14:00 - 17:00.
         </div>
-        <button class="brutal-btn brutal-btn-sm brutal-btn-ochre" onclick="simulateRainTrigger()">MỞ MÔ PHỎNG MƯA (D01)</button>
+        <button class="brutal-btn brutal-btn-sm brutal-btn-ochre" onclick="simulateRainTrigger()">MỞ MÔ PHỎNG MƯA </button>
       `;
     }
   }
@@ -655,7 +677,7 @@ function renderItineraryTimeline() {
     const totalHours = stops.reduce((acc, s) => acc + (s.durationHours || 2), 0);
     const totalCost = stops.reduce((acc, s) => acc + (s.ticketCost || 0), 0);
     const weatherStatus = state.itinerary.rainAvoidanceApplied
-      ? '<strong style="color:var(--vintage-sage);">Đã thay điểm trong nhà (D03)</strong>'
+      ? '<strong style="color:var(--vintage-sage);">Đã thay điểm trong nhà </strong>'
       : state.itinerary.rainIgnored
         ? '<strong style="color:var(--vintage-amber);">Giữ nguyên điểm ngoài trời</strong>'
         : '<strong style="color:var(--vintage-terracotta);">Cảnh báo mưa 14:00 (Mô phỏng)</strong>';
@@ -671,7 +693,7 @@ function renderItineraryTimeline() {
   }
 }
 
-// Time Edit & Conflict Check (C06 & C07)
+// Time Edit & Conflict Check 
 function timeToMinutes(hhmm) {
   if (!hhmm || !/^\d{2}:\d{2}$/.test(hhmm)) return -1;
   const [h, m] = hhmm.split(':').map(Number);
@@ -716,12 +738,12 @@ function checkTimeConflict() {
 
   if (startMin < 0 || endMin < 0 || startMin >= endMin) {
     alertBox.style.display = 'block';
-    alertBox.innerText = '⚠ C06 InvalidRange: Giờ kết thúc phải lớn hơn giờ bắt đầu!';
+    alertBox.innerText = '⚠  InvalidRange: Giờ kết thúc phải lớn hơn giờ bắt đầu!';
     return false;
   }
   if (startMin < 360 || endMin > 1320) {
     alertBox.style.display = 'block';
-    alertBox.innerText = '⚠ C06 HoursWarning: Khung giờ nằm ngoài thời gian mở cửa khuyến nghị (06:00 - 22:00)!';
+    alertBox.innerText = '⚠  HoursWarning: Khung giờ nằm ngoài thời gian mở cửa khuyến nghị (06:00 - 22:00)!';
     return false;
   }
 
@@ -734,7 +756,7 @@ function checkTimeConflict() {
 
   if (conflictStop) {
     alertBox.style.display = 'block';
-    alertBox.innerText = `⚠ C06 Conflict: Khung giờ này bị trùng với "${conflictStop.title}" (${conflictStop.start} - ${conflictStop.end})!`;
+    alertBox.innerText = `⚠  Conflict: Khung giờ này bị trùng với "${conflictStop.title}" (${conflictStop.start} - ${conflictStop.end})!`;
     return false;
   }
 
@@ -758,16 +780,16 @@ function saveNewTimeSlot() {
   }
   renderItineraryTimeline();
   closeModal('modal-time-edit');
-  showToast(`Đã cập nhật khung giờ ${start} - ${end} thành công! (C06 Đã đổi giờ)`);
+  showToast(`Đã cập nhật khung giờ ${start} - ${end} thành công! `);
 }
 
 // ============================================================================
-// FLOW 2: SIMULATED RAIN AVOIDANCE (D01 - D03)
+// FLOW 2: SIMULATED RAIN AVOIDANCE 
 // ============================================================================
 function simulateRainTrigger() {
   syncWeatherViewUI();
   switchView('weather');
-  showToast('🌧 [MÔ PHỎNG D01]: Phát hiện mưa lớn lúc 14:00 - 17:00 tại Bán đảo Sơn Trà!');
+  showToast;
 }
 
 function selectReplacementOption(repKey) {
@@ -799,8 +821,8 @@ function syncWeatherViewUI() {
   }
   if (confirmBtn) {
     confirmBtn.innerText = state.itinerary.rainAvoidanceApplied
-      ? `ĐÃ ÁP DỤNG: ${rep.name} (D03) ✓`
-      : 'ÁP DỤNG THAY THẾ NÀY (MÀN HÌNH D03) ➜';
+      ? `ĐÃ ÁP DỤNG: ${rep.name}  ✓`
+      : 'ÁP DỤNG THAY THẾ NÀY () ➜';
   }
 }
 
@@ -832,7 +854,7 @@ function confirmWeatherReplacement() {
       rainVulnerable: false,
       replacedFromSonTra: true,
       badges: [
-        { text: '✓ ĐÃ THAY THẾ TRÁNH MƯA (MÔ PHỎNG D03)', cls: 'badge-sage' },
+        { text: '✓ ĐÃ THAY THẾ TRÁNH MƯA ', cls: 'badge-sage' },
         { text: 'TRONG NHÀ 100%', cls: 'badge-teal' },
         { text: `VÉ: ${rep.ticketCost.toLocaleString('vi-VN')} VNĐ`, cls: 'badge-ochre' }
       ]
@@ -843,7 +865,7 @@ function confirmWeatherReplacement() {
   state.itinerary.rainIgnored = false;
   renderItineraryTimeline();
   syncWeatherViewUI();
-  showToast(`✓ Đã thay thế Sơn Trà bằng "${rep.name}" (Giữ nguyên giờ 14:00 - 16:30) theo mô phỏng tránh mưa D03!`);
+  showToast(`✓ Đã thay thế Sơn Trà bằng "${rep.name}" (Giữ nguyên giờ 14:00 - 16:30) theo mô phỏng tránh mưa !`);
   switchView('itinerary');
 }
 
@@ -874,14 +896,14 @@ function resetWeatherSimulation() {
 }
 
 // ============================================================================
-// FLOW 3: THREE-QUESTION HERITAGE QUIZ (E01 - E05)
+// FLOW 3: THREE-QUESTION HERITAGE QUIZ 
 // ============================================================================
 function renderQuiz() {
   const total = state.quiz.questions.length; // 3 questions
   const currentIdx = state.quiz.currentQuestion;
   const q = state.quiz.questions[currentIdx];
 
-  document.getElementById('quiz-question-number').innerText = `CÂU HỎI ${currentIdx + 1} / ${total} (MÀN HÌNH E03)`;
+  document.getElementById('quiz-question-number').innerText = `CÂU HỎI ${currentIdx + 1} / ${total} ()`;
   document.getElementById('quiz-question-title').innerText = q.question;
   document.getElementById('quiz-score-badge').innerText = state.quiz.score;
 
@@ -911,33 +933,39 @@ function renderQuiz() {
     container.appendChild(btn);
   });
 
-  document.getElementById('quiz-feedback-box').innerText = `Chọn 1 đáp án để xác nhận (Câu ${currentIdx + 1}/${total} · E03.01)`;
+  document.getElementById('quiz-feedback-box').innerText = `Chọn 1 đáp án để xác nhận `;
   const actionBtn = document.getElementById('quiz-action-btn');
-  actionBtn.innerText = 'XÁC NHẬN ĐÁP ÁN (E03.02)';
+  actionBtn.innerText = 'XÁC NHẬN ĐÁP ÁN ';
   actionBtn.disabled = false;
-  actionBtn.onclick = submitQuizAnswer;
 }
 
 function selectQuizOption(index, btnElement) {
-  if (state.quiz.answeredCurrent) return;
+  if (state.quiz.answeredCurrent || state.quiz.pending) return;
   state.quiz.selectedOption = index;
   document.querySelectorAll('#quiz-options-container .quiz-option').forEach(el => el.classList.remove('selected'));
   btnElement.classList.add('selected');
-  document.getElementById('quiz-feedback-box').innerText = 'Đã chọn đáp án. Bấm "XÁC NHẬN ĐÁP ÁN" (E03.02)';
+  document.getElementById('quiz-feedback-box').innerText = 'Đã chọn đáp án. Bấm "XÁC NHẬN ĐÁP ÁN" ';
 }
 
 function submitQuizAnswer() {
+  if (state.quiz.answeredCurrent) {
+    state.quiz.currentQuestion++;
+    if (state.quiz.currentQuestion < state.quiz.questions.length) renderQuiz();
+    else finishQuiz();
+    return;
+  }
   if (state.quiz.selectedOption === null) {
     showToast('⚠ Vui lòng chọn một đáp án trước khi xác nhận!');
     return;
   }
-  if (state.quiz.answeredCurrent) return;
+  if (state.quiz.answeredCurrent || state.quiz.pending) return;
   state.quiz.answeredCurrent = true;
 
   const currentIdx = state.quiz.currentQuestion;
   const total = state.quiz.questions.length;
   const q = state.quiz.questions[currentIdx];
   const options = document.querySelectorAll('#quiz-options-container .quiz-option');
+  // Local mock quiz: no network or Gemini request is needed for grading.
   const isCorrect = state.quiz.selectedOption === q.correct;
 
   state.quiz.userAnswers[currentIdx] = state.quiz.selectedOption;
@@ -946,23 +974,15 @@ function submitQuizAnswer() {
     options[state.quiz.selectedOption].classList.add('correct');
     state.quiz.score++;
     document.getElementById('quiz-score-badge').innerText = state.quiz.score;
-    document.getElementById('quiz-feedback-box').innerHTML = `✓ <strong style="color:var(--vintage-sage);">CHÍNH XÁC (E03.03)!</strong> ${q.explanation}`;
+    document.getElementById('quiz-feedback-box').innerHTML = `✓ <strong style="color:var(--vintage-sage);">CHÍNH XÁC !</strong> ${q.explanation}`;
   } else {
     options[state.quiz.selectedOption].classList.add('wrong');
     options[q.correct].classList.add('correct');
-    document.getElementById('quiz-feedback-box').innerHTML = `✗ <strong style="color:var(--vintage-rose);">CHƯA ĐÚNG (E03.03)!</strong> Đáp án đúng là ${String.fromCharCode(65 + q.correct)}. ${q.explanation}`;
+    document.getElementById('quiz-feedback-box').innerHTML = `✗ <strong style="color:var(--vintage-rose);">CHƯA ĐÚNG !</strong> Đáp án đúng là ${String.fromCharCode(65 + q.correct)}. ${q.explanation}`;
   }
 
   const actionBtn = document.getElementById('quiz-action-btn');
-  actionBtn.innerText = currentIdx < total - 1 ? 'CÂU TIẾP THEO ➜' : 'XEM KẾT QUẢ 3 CÂU (E04) ➜';
-  actionBtn.onclick = () => {
-    state.quiz.currentQuestion++;
-    if (state.quiz.currentQuestion < total) {
-      renderQuiz();
-    } else {
-      finishQuiz();
-    }
-  };
+  actionBtn.innerText = currentIdx < total - 1 ? 'CÂU TIẾP THEO ➜' : 'XEM KẾT QUẢ 3 CÂU  ➜';
 }
 
 function finishQuiz() {
@@ -980,7 +1000,7 @@ function finishQuiz() {
     state.user.coins += 500;
     state.quiz.completedOnce = true;
     if (rewardBadge) rewardBadge.innerText = '+500 XU DI SẢN (MÔ PHỎNG)';
-    showToast(`Chúc mừng! Bạn trả lời đúng ${state.quiz.score}/${total} câu và nhận +500 Xu Di Sản mô phỏng (E04)!`);
+    showToast(`Chúc mừng! Bạn trả lời đúng ${state.quiz.score}/${total} câu và nhận +500 Xu Di Sản mô phỏng !`);
   } else {
     if (rewardBadge) rewardBadge.innerText = 'ĐÃ NHẬN 500 XU LẦN ĐẦU (MÔ PHỎNG)';
     showToast(`Hoàn thành lượt chơi lại: Đúng ${state.quiz.score}/${total} câu hỏi di sản!`);
@@ -1023,7 +1043,7 @@ function reviewQuizAnswers() {
 
   reviewCard.style.display = 'block';
   reviewCard.scrollIntoView({ behavior: 'smooth' });
-  showToast('Đã mở màn hình E05: Xem lại lời giải chi tiết cả 3 câu hỏi di sản.');
+  showToast;
 }
 
 function resetQuiz() {
@@ -1040,7 +1060,7 @@ function resetQuiz() {
 }
 
 // ============================================================================
-// REWARDS & PROFILE (F01 - F04 & G01 - G03)
+// REWARDS & PROFILE 
 // ============================================================================
 function redeemVoucher(title, cost, code) {
   if (state.user.vouchers.includes(code)) {
@@ -1054,6 +1074,8 @@ function redeemVoucher(title, cost, code) {
 
   state.user.coins -= cost;
   state.user.vouchers.push(code);
+  state.user.voucherDetails ??= {};
+  state.user.voucherDetails[code] = title;
   document.getElementById('game-coin-display').innerText = state.user.coins;
   document.getElementById('profile-coins-val').innerText = `${state.user.coins} XU`;
   document.getElementById('my-vouchers-count').innerText = state.user.vouchers.length;
@@ -1065,7 +1087,7 @@ function redeemVoucher(title, cost, code) {
     <div class="brutal-card" style="background:#FFFDF0; border-style:dashed;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
-          <span class="brutal-badge badge-teal">VỪA ĐỔI MÔ PHỎNG (F04)</span>
+          <span class="brutal-badge badge-teal">VỪA ĐỔI MÔ PHỎNG </span>
           <h4 style="font-family:var(--font-heading); font-size:18px; font-weight:900; margin-top:6px;">${title}</h4>
           <div style="font-family:var(--font-mono); font-size:16px; font-weight:900; color:var(--vintage-terracotta); margin-top:4px;">
             MÃ: ${code}
@@ -1079,7 +1101,7 @@ function redeemVoucher(title, cost, code) {
   `;
   container.prepend(div);
 
-  showToast(`✓ Đổi ưu đãi mô phỏng thành công (-${cost} xu)! Mã của bạn: ${code} (F04)`);
+  showToast(`✓ Đổi ưu đãi mô phỏng thành công (-${cost} xu)! Mã của bạn: ${code} `);
 }
 
 function showMyRewardsTab() {
@@ -1111,12 +1133,10 @@ function saveProfileEdit() {
   document.getElementById('profile-email-val').innerText = state.user.email;
   document.getElementById('profile-phone-val').innerText = state.user.phone;
 
-  if (state.user.isLoggedIn) {
-    document.getElementById('auth-state-btn').innerHTML = `<span>${state.user.name.toUpperCase()}</span> ✓`;
-  }
+  syncAuthButton();
 
   closeModal('modal-profile-edit');
-  showToast('✓ Đã lưu thông tin hồ sơ cá nhân mô phỏng (G02)!');
+  showToast('✓ Đã lưu thông tin hồ sơ cá nhân mô phỏng !');
 }
 
 function toggleChip(el) {
@@ -1124,53 +1144,69 @@ function toggleChip(el) {
 }
 
 // ============================================================================
-// HAPPY PATH GUIDE RUNNER (8 STEPS)
+// HƯỚNG DẪN GUIDE RUNNER (8 STEPS)
 // ============================================================================
-const happyPathSteps = [
-  { step: 1, view: 'auth', title: '1. Đăng nhập [A01]', hint: 'Chào mừng du khách đến với Danangacy! Hãy bấm "⚡ Đăng nhập 1-Click" để bắt đầu.' },
-  { step: 2, view: 'home', title: '2. Khám phá [B01]', hint: 'Trang chủ và danh sách điểm đến di sản Đà Nẵng: Sơn Trà, Cầu Rồng, Ngũ Hành Sơn, Bảo tàng.' },
-  { step: 3, view: 'itinerary-create', title: '3. Tạo lịch [C02-C05]', hint: 'Chọn nhịp độ du lịch, sở thích và điểm đến để lập lịch trình mô phỏng tất định.' },
-  { step: 4, view: 'itinerary', title: '4. Xem lịch [C06]', hint: 'Xem timeline chi tiết các mốc giờ 08:00, 14:00, 18:00 và kiểm tra xung đột giờ (C06/C07).' },
-  { step: 5, view: 'weather', title: '5. Mưa & Đổi điểm [D01]', hint: 'Mô phỏng tránh mưa: Phát hiện mưa tại Sơn Trà (14:00) và đề xuất đổi sang Bảo tàng trong nhà.' },
-  { step: 6, view: 'game', title: '6. Chơi Game [E02-E04]', hint: 'Tham gia trả lời 3 câu hỏi di sản Đà Nẵng để nhận 500 Xu Di Sản (Mô phỏng).' },
-  { step: 7, view: 'rewards', title: '7. Đổi quà [F01-F04]', hint: 'Dùng xu mô phỏng vừa tích lũy để đổi vé bảo tàng hoặc voucher cà phê muối.' },
-  { step: 8, view: 'profile', title: '8. Hồ sơ cá nhân [G01]', hint: 'Kiểm tra tài khoản, xu tích lũy, chỉnh sửa hồ sơ (G02) và danh sách địa điểm đã lưu.' }
-];
-
-function runHappyStep(stepNum) {
-  state.happyStep = stepNum;
-  const config = happyPathSteps.find(s => s.step === stepNum);
-  if (!config) return;
-
-  document.querySelectorAll('.tour-step-pill').forEach((pill, idx) => {
-    pill.classList.remove('active');
-    if (idx + 1 === stepNum) pill.classList.add('active');
-  });
-
-  switchView(config.view);
-  showToast(`[HAPPY PATH ${stepNum}/8]: ${config.hint}`);
-}
-
-function nextHappyStep() {
-  if (state.happyStep < happyPathSteps.length) {
-    runHappyStep(state.happyStep + 1);
-  } else {
-    showToast('Bạn đã hoàn thành trọn vẹn luồng Happy Path của Danangacy!');
-  }
-}
-
-function prevHappyStep() {
-  if (state.happyStep > 1) {
-    runHappyStep(state.happyStep - 1);
-  }
-}
-
 // Initializer
-window.addEventListener('DOMContentLoaded', () => {
+export async function initializeApp() {
+  // Catalog loads independently; the mock quiz is usable immediately offline.
+  api('/catalog').then(catalog => {
+    Object.assign(STOP_TEMPLATES, catalog.stops);
+    Object.assign(WEATHER_REPLACEMENTS, catalog.replacements);
+    state.placesData = catalog.places;
+  }).catch(() => {
+    // Keep local catalog and quiz defaults when the backend is unavailable.
+  });
+  try {
+    const saved = JSON.parse(localStorage.getItem('danangacy:v1') || 'null');
+    if (saved?.version === 1 && saved.user && saved.itinerary) {
+      Object.assign(state.user, saved.user);
+      Object.assign(state.itinerary, saved.itinerary);
+      state.quiz.completedOnce = saved.completedOnce === true;
+    }
+  } catch { /* Invalid or disabled storage: keep defaults. */ }
+  const persist = () => {
+    try {
+      localStorage.setItem('danangacy:v1', JSON.stringify({version: 1, user: state.user,
+        itinerary: state.itinerary, completedOnce: state.quiz.completedOnce}));
+    } catch { /* Storage may be unavailable or full. */ }
+  };
+  // Also captures mutations made by the compatibility controller.
+  new MutationObserver(persist).observe(document.getElementById('root'), {
+    childList: true, subtree: true, attributes: true, characterData: true,
+  });
+  window.addEventListener('pagehide', persist);
+  for (const [id, value] of Object.entries({
+    'profile-name-val': state.user.name.toUpperCase(), 'profile-email-val': state.user.email,
+    'profile-phone-val': state.user.phone, 'profile-coins-val': `${state.user.coins} XU`,
+    'game-coin-display': state.user.coins, 'my-vouchers-count': state.user.vouchers.length,
+  })) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value;
+  }
   renderQuiz();
   renderItineraryTimeline();
   syncWeatherViewUI();
   renderSavedPlacesList();
   updateItineraryPreview();
-  runHappyStep(1);
-});
+  syncAuthButton();
+  if (state.user.isLoggedIn) {
+    switchView('home');
+  } else {
+    switchView('auth');
+  }
+  for (const code of state.user.vouchers.filter(code => code !== 'DN-WELCOME-2026')) {
+    const card = document.createElement('div');
+    card.className = 'brutal-card';
+    card.style.gridColumn = 'span 6';
+    card.textContent = `${state.user.voucherDetails?.[code] || '?u ??i ?? ??i'} ? M?: ${code}`;
+    document.getElementById('vouchers-list-container').prepend(card);
+  }
+  try {
+    const weather = await api(`/weather?day=${state.itinerary.date}`);
+    window.dispatchEvent(new CustomEvent('danangacy:weather', { detail: weather }));
+  } catch { showToast('Không tải được thời tiết mẫu. Hãy kiểm tra backend.'); }
+}
+
+// Compatibility for controls generated by the existing simulation controller.
+Object.assign(window, { switchView, showToast, openModal, closeModal, toggleAuthSub, doLogin, doQuickDemoLogin, doLogout, filterPlaces, selectExploreArea, searchFilter, applyExploreFilter, resetExploreFilter, openPlaceDetail, renderSavedPlacesList, savePlace, addCurrentPlaceToItinerary, openBookingTicketModal, confirmTicketBooking, selectPace, togglePreferenceChip, applyDeterministicDestinationSuggestions, updateItineraryPreview, formatDateVN, generateAndSaveItinerary, renderItineraryTimeline, timeToMinutes, openEditScreenC07, openTimeEditModal, onSelectStopToEdit, checkTimeConflict, saveNewTimeSlot, simulateRainTrigger, selectReplacementOption, syncWeatherViewUI, confirmWeatherReplacement, skipWeatherReplacement, resetWeatherSimulation, renderQuiz, selectQuizOption, submitQuizAnswer, finishQuiz, reviewQuizAnswers, resetQuiz, redeemVoucher, showMyRewardsTab, openProfileEditModal, saveProfileEdit, toggleChip });
+export { openAccount, switchView, showToast, openModal, closeModal, toggleAuthSub, doLogin, doQuickDemoLogin, doLogout, filterPlaces, selectExploreArea, searchFilter, applyExploreFilter, resetExploreFilter, openPlaceDetail, renderSavedPlacesList, savePlace, addCurrentPlaceToItinerary, openBookingTicketModal, confirmTicketBooking, selectPace, togglePreferenceChip, applyDeterministicDestinationSuggestions, updateItineraryPreview, formatDateVN, generateAndSaveItinerary, renderItineraryTimeline, timeToMinutes, openEditScreenC07, openTimeEditModal, onSelectStopToEdit, checkTimeConflict, saveNewTimeSlot, simulateRainTrigger, selectReplacementOption, syncWeatherViewUI, confirmWeatherReplacement, skipWeatherReplacement, resetWeatherSimulation, renderQuiz, selectQuizOption, submitQuizAnswer, finishQuiz, reviewQuizAnswers, resetQuiz, redeemVoucher, showMyRewardsTab, openProfileEditModal, saveProfileEdit, toggleChip };
