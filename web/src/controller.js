@@ -1192,11 +1192,7 @@ export async function initializeApp() {
   renderSavedPlacesList();
   updateItineraryPreview();
   syncAuthButton();
-  if (state.user.isLoggedIn) {
-    switchView('home');
-  } else {
-    switchView('auth');
-  }
+  switchView('home');
   for (const code of state.user.vouchers.filter(code => code !== 'DN-WELCOME-2026')) {
     const card = document.createElement('div');
     card.className = 'brutal-card';
