@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "skills": {
+    "google-cloud-waf-security": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/google-cloud-waf-security/SKILL.md",
+      "computedHash": "eb715b41f9141a080d5240a17a60000899cab4052bc59c6a07b2995264b4d046"
+    }
+  }
+}
