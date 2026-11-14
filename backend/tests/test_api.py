@@ -34,6 +34,14 @@ def test_invalid_plan():
         'date': 'bad', 'destinations': []}).status_code == 422
 
 
+def test_public_maps_config_never_exposes_gemini(monkeypatch):
+    monkeypatch.setenv('GOOGLE_MAPS_EMBED_KEY', 'public-map-test-key')
+    monkeypatch.setenv('GEMINI_API_KEY', 'private-test-key')
+    response = client.get('/api/config')
+    assert response.json() == {'googleMapsEmbedKey': 'public-map-test-key'}
+    assert 'private-test-key' not in response.text
+
+
 def test_gemini_failure_returns_labeled_mock(monkeypatch):
     from app.providers import PlannerError
     class FailingPlanner:

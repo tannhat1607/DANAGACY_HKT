@@ -3,6 +3,18 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 
 /* Shared interface rhythm across every screen. */
+.brutal-card.explore-map { padding: 0; overflow: hidden; }
+.brutal-card.explore-map:hover { transform: none; box-shadow: var(--shadow-main); }
+.explore-map-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; background: var(--bg-dark); color: var(--bg-card); padding: 14px 18px; font-size: 12px; font-weight: 800; }
+.explore-map-heading span:last-child { color: var(--vintage-ochre); }
+.explore-map-frame { display: block; width: 100%; height: clamp(320px, 46vw, 480px); border: 0; }
+.explore-map-empty { min-height: 340px; padding: 32px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 18px; background: var(--bg-card-alt); }
+.explore-map-empty h3 { font-size: 28px; font-weight: 900; line-height: 1.35; }
+.explore-map-empty p { font-size: 14px; color: var(--text-muted); max-width: 50ch; }
+.explore-map-places { display: flex; flex-wrap: wrap; gap: 12px; padding: 18px; border-top: 3px solid var(--border-color); }
+.explore-map-footer { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; padding: 0 18px 18px; font-size: 11px; line-height: 1.7; }
+.explore-map-footer span { max-width: 55ch; color: var(--text-muted); }
+.explore-map-footer a { color: var(--border-color); font-weight: 700; }
 :root { --space-section: 28px; --text-muted: #62594c; }
 html { scroll-padding-top: 155px; }
 button, input, select, textarea { font: inherit; }

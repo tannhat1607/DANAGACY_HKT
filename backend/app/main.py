@@ -40,6 +40,12 @@ def catalog():
     return {k: v for k, v in DATA.items() if k != 'questions'}
 
 
+@app.get('/api/config')
+def public_config():
+    # Maps Embed uses a public, referrer-restricted browser key. Never expose Gemini keys.
+    return {'googleMapsEmbedKey': os.getenv('GOOGLE_MAPS_EMBED_KEY', '').strip()}
+
+
 @app.post('/api/itineraries')
 def plan(request: PlanRequest):
     keys = list(dict.fromkeys(request.destinations))

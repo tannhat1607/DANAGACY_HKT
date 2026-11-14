@@ -376,6 +376,7 @@ function applyExploreFilter(withToast = true) {
 }
 
 function resetExploreFilter() {
+  window.dispatchEvent(new Event('danangacy:map-reset'));
   state.explore.query = '';
   state.explore.area = 'Tất cả';
   const input = document.getElementById('explore-search-input');

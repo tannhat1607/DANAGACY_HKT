@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import WeatherForecast from './components/WeatherForecast.jsx';
+import ExploreMap from './components/ExploreMap.jsx';
 import { openAccount, initializeApp, switchView, showToast, openModal, closeModal, toggleAuthSub, doLogin, doQuickDemoLogin, doLogout, filterPlaces, selectExploreArea, searchFilter, applyExploreFilter, resetExploreFilter, openPlaceDetail, renderSavedPlacesList, savePlace, addCurrentPlaceToItinerary, openBookingTicketModal, confirmTicketBooking, selectPace, togglePreferenceChip, applyDeterministicDestinationSuggestions, updateItineraryPreview, formatDateVN, generateAndSaveItinerary, renderItineraryTimeline, timeToMinutes, openEditScreenC07, openTimeEditModal, onSelectStopToEdit, checkTimeConflict, saveNewTimeSlot, simulateRainTrigger, selectReplacementOption, syncWeatherViewUI, confirmWeatherReplacement, skipWeatherReplacement, resetWeatherSimulation, renderQuiz, selectQuizOption, submitQuizAnswer, finishQuiz, reviewQuizAnswers, resetQuiz, redeemVoucher, showMyRewardsTab, openProfileEditModal, saveProfileEdit, toggleChip } from './controller.js';
 
 export default function App() {
@@ -292,7 +293,7 @@ export default function App() {
       <div className="page-heading">
         <div>
           <h2 className="section-title">BẢN ĐỒ &amp; TÌM KIẾM ĐỊA ĐIỂM </h2>
-          <p style={{"fontFamily": "var(--font-body)", "fontSize": "14px", "fontWeight": "700"}}>Xem vị trí tọa độ địa lý minh họa, định tuyến và danh mục du lịch trực quan (Dữ liệu mô phỏng cục bộ).</p>
+          <p className="section-description">Tìm điểm đến và khám phá vị trí trên Google Maps.</p>
         </div>
         <div>
           <button className="brutal-btn brutal-btn-white" onClick={(event) => { resetExploreFilter() }}>LÀM MỚI TỌA ĐỘ</button>
@@ -301,27 +302,7 @@ export default function App() {
 
       <div className="brutal-grid">
         <div style={{"gridColumn": "span 8"}}>
-          <div className="brutal-card" style={{"padding": "0", "overflow": "hidden", "position": "relative"}}>
-            <div style={{"padding": "12px 16px", "background": "var(--border-color)", "color": "#FFFDF5", "fontFamily": "var(--font-body)", "fontWeight": "700", "fontSize": "12px", "display": "flex", "justifyContent": "space-between"}}>
-              <span>TỌA ĐỘ MÔ PHỎNG: 16.0544° N, 108.2022° E (ĐÀ NẴNG)</span>
-              <span style={{"color": "var(--vintage-ochre)"}}>BẢN ĐỒ SƠ ĐỒ DI SẢN </span>
-            </div>
-            <img src="assets/hoi_an_map.jpg" alt="Bản đồ" style={{"width": "100%", "height": "450px", "objectFit": "cover", "display": "block", "filter": "sepia(20%) contrast(105%)"}} />
-            
-            
-            <div id="pin-sontra" data-area="Sơn Trà" data-free="true" data-tour="true" onClick={(event) => { openPlaceDetail('sontra') }} style={{"position": "absolute", "top": "28%", "left": "65%", "background": "var(--vintage-ochre)", "border": "3px solid var(--border-color)", "padding": "4px 8px", "fontFamily": "var(--font-heading)", "fontSize": "11px", "fontWeight": "900", "boxShadow": "3px 3px 0px var(--border-color)", "cursor": "pointer"}}>
-              📍 BÁN ĐẢO SƠN TRÀ
-            </div>
-            <div id="pin-caurong" data-area="Hải Châu" data-free="true" data-tour="false" onClick={(event) => { openPlaceDetail('caurong') }} style={{"position": "absolute", "top": "52%", "left": "42%", "background": "var(--vintage-terracotta)", "color": "#FFFDF5", "border": "3px solid var(--border-color)", "padding": "4px 8px", "fontFamily": "var(--font-heading)", "fontSize": "11px", "fontWeight": "900", "boxShadow": "3px 3px 0px var(--border-color)", "cursor": "pointer"}}>
-              📍 CẦU RỒNG
-            </div>
-            <div id="pin-nguhanhson" data-area="Ngũ Hành Sơn" data-free="false" data-tour="true" onClick={(event) => { openPlaceDetail('nguhanhson') }} style={{"position": "absolute", "top": "75%", "left": "55%", "background": "var(--vintage-teal)", "color": "#FFFDF5", "border": "3px solid var(--border-color)", "padding": "4px 8px", "fontFamily": "var(--font-heading)", "fontSize": "11px", "fontWeight": "900", "boxShadow": "3px 3px 0px var(--border-color)", "cursor": "pointer"}}>
-              📍 NGŨ HÀNH SƠN
-            </div>
-            <div id="pin-baotang" data-area="Hải Châu" data-free="false" data-tour="true" onClick={(event) => { openPlaceDetail('baotang') }} style={{"position": "absolute", "top": "45%", "left": "30%", "background": "var(--vintage-rose)", "color": "#FFFDF5", "border": "3px solid var(--border-color)", "padding": "4px 8px", "fontFamily": "var(--font-heading)", "fontSize": "11px", "fontWeight": "900", "boxShadow": "3px 3px 0px var(--border-color)", "cursor": "pointer"}}>
-              📍 BẢO TÀNG ĐÀ NẴNG
-            </div>
-          </div>
+          <ExploreMap onPlaceSelect={openPlaceDetail} />
         </div>
 
         <div style={{"gridColumn": "span 4"}}>
