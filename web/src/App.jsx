@@ -88,7 +88,7 @@ export default function App() {
               <input type="password" id="login-pass" className="brutal-input" defaultValue="••••••••••••" />
             </div>
 
-            <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
+            <div className="page-heading">
               <label style={{"fontFamily": "var(--font-body)", "fontSize": "12px", "fontWeight": "700", "display": "flex", "alignItems": "center", "gap": "6px", "cursor": "pointer"}}>
                 <input type="checkbox" defaultChecked style={{"width": "18px", "height": "18px", "accentColor": "var(--vintage-terracotta)"}} /> Ghi nhớ đăng nhập
               </label>
@@ -189,7 +189,7 @@ export default function App() {
       </div>
 
       
-      <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
+      <div className="page-heading">
         <h2 className="section-title">DANH SÁCH ĐỊA ĐIỂM TIÊU BIỂU </h2>
         <div>
           <button className="brutal-btn brutal-btn-sm brutal-btn-white" onClick={(event) => { filterPlaces('all') }}>TẤT CẢ (4)</button>
@@ -289,7 +289,7 @@ export default function App() {
 
     
     <div id="view-explore" className="view-panel">
-      <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
+      <div className="page-heading">
         <div>
           <h2 className="section-title">BẢN ĐỒ &amp; TÌM KIẾM ĐỊA ĐIỂM </h2>
           <p style={{"fontFamily": "var(--font-body)", "fontSize": "14px", "fontWeight": "700"}}>Xem vị trí tọa độ địa lý minh họa, định tuyến và danh mục du lịch trực quan (Dữ liệu mô phỏng cục bộ).</p>
@@ -357,7 +357,7 @@ export default function App() {
 
     
     <div id="view-itinerary-create" className="view-panel">
-      <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
+      <div className="page-heading">
         <div>
           <h2 className="section-title">LẬP LỊCH TRÌNH CỦA BẠN </h2>
           <p style={{"fontFamily": "var(--font-body)", "fontSize": "14px", "fontWeight": "700"}}>Tạo kế hoạch du lịch Đà Nẵng tất định theo sở thích &amp; nhịp độ (Mô phỏng Client-side, không gọi Backend / Gemini).</p>
@@ -474,7 +474,7 @@ export default function App() {
 
     
     <div id="view-itinerary" className="view-panel">
-      <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
+      <div className="page-heading">
         <div>
           <h2 className="section-title">CHI TIẾT LỊCH TRÌNH CỦA BẠN </h2>
           <p style={{"fontFamily": "var(--font-body)", "fontSize": "14px", "fontWeight": "700"}}>Hành trình du lịch Đà Nẵng được lập tất định theo sở thích và hỗ trợ mô phỏng tránh mưa tự động.</p>
@@ -608,15 +608,16 @@ export default function App() {
 
     
     <div id="view-weather" className="view-panel">
-      <WeatherForecast />
-      <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
+      <div className="page-heading">
         <div>
-          <h2 className="section-title">MÔ PHỎNG ĐIỀU HƯỚNG THỜI TIẾT </h2>
-          <p style={{"fontFamily": "var(--font-body)", "fontSize": "14px", "fontWeight": "700"}}>Mô phỏng kịch bản phát hiện mưa bão và đề xuất thay thế điểm đến trong nhà (Dữ liệu giả lập tất định, không gọi Weather API thực tế).</p>
+          <h2 className="section-title">THỜI TIẾT &amp; HÀNH TRÌNH</h2>
+          <p className="section-description">Theo dõi dự báo và chuẩn bị phương án tham quan phù hợp.</p>
         </div>
         <button className="brutal-btn brutal-btn-white" onClick={(event) => { switchView('itinerary') }}>Quay lại Lịch trình </button>
       </div>
 
+      <WeatherForecast />
+      <div className="weather-demo-heading"><span className="brutal-badge badge-ochre">KỊCH BẢN TRẢI NGHIỆM</span><h3>Thử đổi điểm đến khi trời mưa</h3><p className="section-description">Phần bên dưới dùng tình huống mẫu để bạn thử tính năng đổi điểm, độc lập với dự báo thực tế ở trên.</p></div>
       <div className="weather-alert-box" id="weather-alert-card">
         <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "flex-start", "flexWrap": "wrap", "gap": "12px"}}>
           <div>
@@ -702,7 +703,7 @@ export default function App() {
 
     
     <div id="view-game" className="view-panel">
-      <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
+      <div className="page-heading">
         <div>
           <h2 className="section-title">THỬ THÁCH DI SẢN ĐÀ NẴNG (3 CÂU HỎI) </h2>
           <p style={{"fontFamily": "var(--font-body)", "fontSize": "14px", "fontWeight": "700"}}>Trả lời 3 câu hỏi di sản Đà Nẵng để nhận 500 Xu Di Sản (Dữ liệu mô phỏng Client-side đổi voucher trải nghiệm).</p>
@@ -808,7 +809,7 @@ export default function App() {
 
     
     <div id="view-rewards" className="view-panel">
-      <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
+      <div className="page-heading">
         <div>
           <h2 className="section-title">PHẦN THƯỞNG &amp; ƯU ĐÃI MÔ PHỎNG </h2>
           <p style={{"fontFamily": "var(--font-body)", "fontSize": "14px", "fontWeight": "700"}}>Đổi xu di sản lấy mã ưu đãi mô phỏng (Chỉ dùng trải nghiệm MVP, không có giá trị thanh toán thực tế).</p>
@@ -903,7 +904,7 @@ export default function App() {
 
     
     <div id="view-profile" className="view-panel">
-      <div style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "20px"}}>
+      <div className="page-heading">
         <div>
           <h2 className="section-title">HỒ SƠ CÁ NHÂN &amp; LƯU TRỮ </h2>
           <p style={{"fontFamily": "var(--font-body)", "fontSize": "14px", "fontWeight": "700"}}>Quản lý tài khoản cục bộ, danh sách địa điểm đã lưu và lịch sử di sản.</p>

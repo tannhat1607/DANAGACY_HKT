@@ -88,6 +88,9 @@ class GeminiPlannerProvider:
 
 
 def create_planner():
+    mode = os.getenv('PLANNER_MODE', 'auto').strip().lower()
+    if mode == 'sample':
+        return SamplePlannerProvider()
     key = os.getenv('GEMINI_API_KEY', '').strip()
     if not key:
         return SamplePlannerProvider()

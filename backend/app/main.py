@@ -10,7 +10,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
-from .providers import create_planner, weather_provider, PlannerError
+from .providers import create_planner, weather_provider, PlannerError, SamplePlannerProvider
 
 load_dotenv(Path(__file__).resolve().parents[2] / '.env')
 planner_provider = create_planner()
@@ -45,15 +45,20 @@ def plan(request: PlanRequest):
     keys = list(dict.fromkeys(request.destinations))
     if any(key not in DATA['stops'] for key in keys):
         raise HTTPException(422, 'Điểm đến không hợp lệ')
+    source = planner_provider.source
+    warning = None
     try:
         stops = planner_provider.plan([DATA['stops'][key] for key in keys], request.pace,
                                       day=request.date, people=request.people)
     except PlannerError as error:
-        raise HTTPException(error.status, str(error)) from None
+        stops = SamplePlannerProvider().plan([DATA['stops'][key] for key in keys], request.pace,
+                                             day=request.date, people=request.people)
+        source = 'sample'
+        warning = 'Gemini chưa sẵn sàng. Lịch trình này dùng dữ liệu mẫu để bạn tiếp tục trải nghiệm.'
     for previous, current in zip(stops, stops[1:]):
         if current['start'] < previous['end']:
             raise HTTPException(409, 'Các khung giờ bị trùng')
-    return {'date': request.date, 'stops': stops, 'source': planner_provider.source,
+    return {'date': request.date, 'stops': stops, 'source': source, 'warning': warning,
             'ticketTotal': sum(s['ticketCost'] for s in stops) * request.people}
 
 

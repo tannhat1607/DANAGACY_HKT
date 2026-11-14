@@ -1,5 +1,7 @@
 # Chạy và triển khai DANANGACY
 
+**Cấu hình test lịch trình:** `PLANNER_MODE=sample` tạo lịch bằng dữ liệu mẫu, không gọi Gemini. Đặt `PLANNER_MODE=auto` để thử Gemini khi có key; nếu provider lỗi, backend tự trả lịch mẫu và ghi rõ nguồn. Khởi động lại backend sau khi đổi `.env`. Trên Cloud Run, cấu hình biến này trong revision.
+
 **Quiz để test:** câu hỏi, đáp án, chấm điểm, giải thích và chơi lại hiện xử lý bằng mock data trong `web/src/controller.js`, không gọi `/api/quiz` hoặc `/api/quiz/answer`. Các endpoint quiz backend vẫn giữ sẵn nhưng giao diện không sử dụng.
 
 **Cập nhật Gemini:** đã tích hợp. Chỉ cần điền `.env` rồi khởi động lại backend; xem [hướng dẫn Gemini](GEMINI.md). Phần hướng dẫn provider mẫu phía dưới chỉ còn áp dụng cho thời tiết.

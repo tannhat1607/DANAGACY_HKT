@@ -584,6 +584,8 @@ async function generateAndSaveItinerary() {
   state.itinerary.rainAvoidanceApplied = false;
   state.itinerary.rainIgnored = false;
   state.itinerary.stops = result.stops;
+  state.itinerary.source = result.source;
+  state.itinerary.warning = result.warning || null;
   state.itinerary.createdCount += 1;
 
   const profileItinEl = document.getElementById('profile-itineraries-val');
@@ -593,7 +595,7 @@ async function generateAndSaveItinerary() {
 
   renderItineraryTimeline();
   syncWeatherViewUI();
-  showToast(`Đã tạo lịch trình ${result.source === 'gemini' ? 'bằng Gemini' : 'mẫu'} "${state.itinerary.title}" (${state.itinerary.stops.length} điểm đến)!`);
+  showToast(result.warning || `Đã tạo lịch trình ${result.source === 'gemini' ? 'bằng Gemini' : 'mẫu'} "${state.itinerary.title}" (${state.itinerary.stops.length} điểm đến)!`);
   switchView('itinerary');
 }
 
@@ -609,7 +611,7 @@ function renderItineraryTimeline() {
     titleEl.innerText = `${state.itinerary.title.toUpperCase()} (${stops.length} ĐIỂM)`;
   }
   if (metaEl) {
-    metaEl.innerText = `NGÀY 1 · ${formatDateVN(state.itinerary.date)} · NHỊP ĐỘ ${state.itinerary.pace.toUpperCase()}`;
+    metaEl.innerText = `NGÀY 1 · ${formatDateVN(state.itinerary.date)} · NHỊP ĐỘ ${state.itinerary.pace.toUpperCase()} · ${state.itinerary.source === 'gemini' ? 'TẠO BẰNG GEMINI' : 'LỊCH TRÌNH MẪU'}`;
   }
 
   // Update Weather Banner inside Itinerary Detail

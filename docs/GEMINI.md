@@ -1,5 +1,7 @@
 # Bật tạo lịch bằng Gemini
 
+**Chế độ test hiện tại:** `.env` đặt `PLANNER_MODE=sample` để tạo lịch mẫu ngay, không gọi Gemini. Khi muốn thử lại dịch vụ, đổi thành `PLANNER_MODE=auto` rồi khởi động lại backend. Trong chế độ auto, lỗi Gemini sẽ trả lịch mẫu kèm `source: sample` và thông báo `warning`; không làm gián đoạn luồng tạo lịch. Giao diện hiển thị nguồn lịch trình.
+
 1. Mở `.env` tại thư mục gốc (đã tạo sẵn nếu chưa có).
 2. Điền `GEMINI_API_KEY` và `GEMINI_MODEL`, rồi lưu file.
 3. Khởi động lại FastAPI. Nếu đổi `.env`, cần khởi động lại kể cả khi dùng `--reload`.

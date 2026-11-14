@@ -52,7 +52,14 @@ def test_timeout(monkeypatch):
 
 
 def test_env(monkeypatch):
+    monkeypatch.setenv('PLANNER_MODE', 'auto')
     monkeypatch.delenv('GEMINI_API_KEY', raising=False)
     assert create_planner().source == 'sample'
     monkeypatch.setenv('GEMINI_API_KEY', 'test-key')
     assert create_planner().source == 'gemini'
+
+
+def test_sample_mode_skips_gemini(monkeypatch):
+    monkeypatch.setenv('PLANNER_MODE', 'sample')
+    monkeypatch.setenv('GEMINI_API_KEY', 'test-key')
+    assert create_planner().source == 'sample'

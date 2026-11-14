@@ -34,6 +34,23 @@ def test_invalid_plan():
         'date': 'bad', 'destinations': []}).status_code == 422
 
 
+def test_gemini_failure_returns_labeled_mock(monkeypatch):
+    from app.providers import PlannerError
+    class FailingPlanner:
+        source = 'gemini'
+        def plan(self, *args, **kwargs):
+            raise PlannerError('timeout', 504)
+    monkeypatch.setattr('app.main.planner_provider', FailingPlanner())
+    response = client.post('/api/itineraries', json={
+        'date': '2026-11-20', 'destinations': ['nguhanhson', 'caurong'], 'people': 2})
+    assert response.status_code == 200
+    result = response.json()
+    assert result['source'] == 'sample'
+    assert result['warning']
+    assert len(result['stops']) == 2
+    assert result['ticketTotal'] == 80000
+
+
 def test_quiz_grading():
     assert 'correct' not in client.get('/api/quiz').json()[0]
     result = client.post('/api/quiz/answer', json={'question': 0, 'answer': 0})
