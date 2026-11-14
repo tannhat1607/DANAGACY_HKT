@@ -182,7 +182,7 @@ export default function App() {
             <div style={{"position": "relative"}}>
               <img src="assets/danang_hero.jpg" alt="Cầu Rồng Đà Nẵng" style={{"width": "100%", "height": "320px", "objectFit": "cover", "border": "4px solid var(--border-color)", "boxShadow": "8px 8px 0px var(--border-color)", "filter": "sepia(15%)"}} />
               <div style={{"position": "absolute", "bottom": "-12px", "right": "-12px", "background": "var(--vintage-terracotta)", "color": "#FFFDF5", "border": "3px solid var(--border-color)", "padding": "8px 14px", "fontFamily": "var(--font-heading)", "fontWeight": "900", "boxShadow": "4px 4px 0px var(--border-color)"}}>
-                ✦ 28°C · NẮNG ĐẸP XỨ QUẢNG (MÔ PHỎNG)
+                ✦ 28°C · NẮNG ĐẸP ĐÀ NẴNG (MÔ PHỎNG)
               </div>
             </div>
           </div>
@@ -325,6 +325,9 @@ export default function App() {
               <div className="chip-btn" onClick={(event) => { toggleChip(event.currentTarget) }}>Miễn phí vé</div>
               <div className="chip-btn" onClick={(event) => { toggleChip(event.currentTarget) }}>Có tour HDV</div>
             </div>
+
+            <div style={{"fontFamily": "var(--font-heading)", "fontSize": "12px", "fontWeight": "700", "marginBottom": "8px"}}>ĐỊA ĐIỂM:</div>
+            <div id="explore-place-buttons" />
 
             <div id="explore-filtered-results" style={{"marginBottom": "14px", "fontFamily": "var(--font-body)", "fontSize": "12px", "fontWeight": "700", "background": "#FFFDF0", "border": "2px solid var(--border-color)", "padding": "10px"}}>
               Đang hiển thị: <strong>4 / 4 địa điểm tiêu biểu</strong> trên bản đồ mô phỏng.

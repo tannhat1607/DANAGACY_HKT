@@ -327,6 +327,7 @@ function filterPlaces(category) {
 
 function selectExploreArea(chipEl, areaName) {
   state.explore.area = areaName;
+  window.dispatchEvent(new CustomEvent('danangacy:map-area', { detail: areaName }));
   const container = document.getElementById('explore-area-chips');
   if (container) {
     container.querySelectorAll('.chip-btn').forEach(c => c.classList.remove('active'));

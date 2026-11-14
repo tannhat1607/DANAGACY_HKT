@@ -12,9 +12,13 @@
 .explore-map-empty h3 { font-size: 28px; font-weight: 900; line-height: 1.35; }
 .explore-map-empty p { font-size: 14px; color: var(--text-muted); max-width: 50ch; }
 .explore-map-places { display: flex; flex-wrap: wrap; gap: 12px; padding: 18px; border-top: 3px solid var(--border-color); }
+#explore-place-buttons { margin-bottom: 16px; }
+#explore-place-buttons .explore-map-places { gap: 8px; padding: 0; border: 0; }
+#explore-place-buttons .explore-map-places .brutal-btn { max-width: 100%; }
 .explore-map-footer { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; padding: 0 18px 18px; font-size: 11px; line-height: 1.7; }
 .explore-map-footer span { max-width: 55ch; color: var(--text-muted); }
 .explore-map-footer a { color: var(--border-color); font-weight: 700; }
+.explore-map-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
 :root { --space-section: 28px; --text-muted: #62594c; }
 html { scroll-padding-top: 155px; }
 button, input, select, textarea { font: inherit; }
@@ -540,6 +544,27 @@ body {
       border: 3px solid var(--border-color);
       padding: 16px;
       background: var(--bg-card);
+    }
+
+    #places-cards-container .place-card-item > .brutal-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #places-cards-container .place-img {
+      display: block;
+      flex: none;
+    }
+
+    #places-cards-container .place-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #places-cards-container .place-body > div:last-child {
+      margin-top: auto;
     }
 
     .quiz-option {
